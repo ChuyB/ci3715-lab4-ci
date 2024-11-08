@@ -1,15 +1,11 @@
-name: build
-on: push
+name: pytest-coverage-commentator
+on:
+  pull_request:
+    branches:
+      - '*'
 
 jobs:
-  format:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Run black formatter
-        uses: rickstaa/action-black@v1.3.3
-
-  test:
+  build:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -28,4 +24,6 @@ jobs:
           pipenv install --deploy --dev
       - name: Run test suite
         run: |
-          pipenv run pytest --cov
+          pipenv run pytest --cache-clear --cov=./ tests/ > pytest-coverage.txt
+      - name: Comment coverage
+        uses: coroo/pytest-coverage-commentator@v1.0.2
