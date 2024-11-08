@@ -28,4 +28,4 @@ jobs:
           pipenv install --deploy --dev
       - name: Run test suite
         run: |
-          pipenv run pytest
+          pipenv run pytest --cov
